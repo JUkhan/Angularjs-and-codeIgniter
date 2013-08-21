@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AngularJS and CodeIgniter user guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 50px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+   
+  
+
+  </head>
+
+  <body>
+  
+	 <div class="navbar xnavbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav" id="top-nav">
+                      
+						
+							
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    <div class="container">
+
+      <div >
+        
+        <div class="page-header">
+         <h3> User guide</h3>
+        </div>
+		 <fieldset>
+			<legend> Application Name</legend>
+			<p>
+			Assuming that our application name is <b>oxygen</b>. So create a folder named <b>oxygen</b> in <b>htdocs</b> and put all the extracted content there.
+			</p>
+	   </fieldset>
+       <fieldset>
+	   <legend> Configure Database</legend>
+	  
+		<p>
+		You will find a SQL file named <b>'sampledb'</b> into the <b>oxygen</b> folder. 
+		
+		Run the script in <b>phpMyAdmin</b>. 
+		<br>Now we need to configure the database connecton string. To configure the database please open the file at <b> oxygen/application/config/database.php</b>
+		and set the configuration like bellow:
+		<pre>
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'sampledb';
+$db['default']['dbdriver'] = 'mysql';
+
+		</pre>
+		We also need another database configuration that is required when we use tools, this is code generator. We will describe about this later on.
+		To configure the tools connection string please open the file at <b> oxygen/tools/util.php</b> and set the configuration like bellow:
+		<pre>
+JCrud::$HOST="127.0.0.1";
+JCrud::$DBNAME="sampledb";
+JCrud::$USER="root";
+JCrud::$PASS="";
+		</pre>
+		</p> 
+		</fieldset>
+		 <fieldset>
+	   <legend> Browse the Application</legend>
+		
+		<p>
+			Browse this link <b>http://localhost/oxygen</b>. Login page will appear, please give the user name:'admin' and password: 'admin'. 
+			This user's <b>Role</b> is 'Super Admin' . He can authorize others.
+		</p>
+		<p>
+		Now you get a Authorize menu and it's submenu <b>User</b> , <b>Navigation</b> , <b>Navigation View Right</b> , and  <b>Role</b>. Browse all of them.
+		</p>
+		
+		<p>
+		If you click on the user navigation submenu. You will see there are two users. Now our task is we shall have tow pages named ( 
+		<b>Department</b> ,<b>Student</b> ) and autorize those pages to the users who belong to specific <b>Role</b>.
+		</p>
+		<p>
+		<b style="color:green">Now question is how we shall do this ? Ans: Its very easy to do. Just we use code generator that has been embedded with oxygen  and clicking some stuff and your task is done.</b>
+		</p>
+		 </fieldset>
+		 
+		 <fieldset>
+	   <legend> Use Code Generator</legend>
+		
+		<p>
+			Browse this link <b>http://localhost/oxygen/tools</b>. If we click on the Navigations table name, all the columns will appear  
+			just like following figure<br>
+			<img src="cg1.png"/>
+			<br>
+			Now we can add tables add their columns , and we can configure the column set as form, grid, quick search, 
+			relational table and how the relational table bind with drop-down list and so on. 
+		</p>
+		<p>
+		Add  <b>Department</b> table and its two columns 'DepartmentId' , 'Name' --  set the columns as the following figure
+		<br>
+			<img src="cg2.png"/>
+			<br><br>
+			Same way add the student table. Student table has the relation with Department table. see the following figure
+			<br><br><img src="cg3.png"/><br><br>
+			Now select <b>Department</b> table and click on <b>Sync with Application</b> button and also select <b>Student</b> table and click on <b>Sync with Application</b> button.
+			Code generation has been completed.
+		</p>
+		<p>
+			<b>One important thing is that if we see student form it looks like following</b>
+			<br><br><img src="cg4.png"/><br><br>
+			if you want to change the form fields order like the following image, you need to apply the drag and drop functionality reordering the columns 
+			and then click on the <b >Save Column Order</b> button -- now your columns order saved.
+			Also click on the <b>Sync with Application</b> button regenerate the code for <b>Student</b> table
+			
+			<br><br><img src="cg5.png"/><br><br>
+		</p>
+		</fieldset>
+		
+		 <fieldset>
+	   <legend>Run time generate menu and page aothorization</legend>
+	   <p>
+			Browse this link <b>http://localhost/oxygen</b>. Login as Super admin where user name and password are 'admin'
+			Click on the Navigation menu add two Navigation : Department and Student like the following figure. 
+			Keep in mind that Actio Path is case sensative and action Path should be exactly table name.
+			<br><br><img src="cg6.png"/><br><br>
+		</p>
+		<p>
+			
+			Click on the Navigation View Right menu add two Authorizations  like the following figure. 
+			
+			<br><br><img src="cg7.png"/><br><br>
+			<br><br>
+			Now Navigations and authorization are done.<br>
+			Logout and login with such a user whose Role is 'user'. If login is successfully you will have two menu named
+			'Department' and 'Student'. Now you can insert, update, delete, and search them...
+			<br>
+			Note: There is a user who is belongs to 'user' Role whose user name:'user' and password:'user'
+		</p>
+	   </fieldset>
+      </div>
+
+    </div>
+
+  
+   
+  </body>
+</html>
