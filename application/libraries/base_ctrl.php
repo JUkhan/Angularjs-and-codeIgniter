@@ -19,6 +19,13 @@ class base_ctrl extends CI_Controller {
 		return  json_decode(file_get_contents("php://input"));
 	}
 	
+	protected function is_authentic($roleId, $userId, $action){
+		$query= $this->db->query("SELECT NavigationId, NavName, NavOrder,ParentNavId,ActionPath
+From navigations where NavigationId in(SELECT a.Navigations FROM NavigViewRight a 
+WHERE a.Roles=".$this->db->escape($roleId)." or a.Users=".$this->db->escape($userId).") AND ActionPath =".$this->db->escape($action)." order by NavOrder");
+	return $query->num_rows()>0;
+	}
+	
 	protected $auth;
 	protected $user;
 	

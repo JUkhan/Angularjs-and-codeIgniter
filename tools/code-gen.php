@@ -696,14 +696,19 @@ require_once(\'./application/libraries/base_ctrl.php\');
 class '.$this->tableName.'_ctrl extends base_ctrl {
 	function __construct() {
 		parent::__construct();		
-		$this->load->database();
 	    $this->load->model(\''.$this->tableName.'_model\',\'model\');
 	}
 	public function index()
 	{
-		$data[\'fx\']=\'return \'.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
-		$data[\'read\']=$this->auth->IsRead;
-		$this->load->view(\''.$this->tableName.'_view\', $data);
+		if($this->is_authentic($this->auth->RoleId, $this->user->UserId, \''.$this->tableName.'\')){
+			$data[\'fx\']=\'return \'.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
+			$data[\'read\']=$this->auth->IsRead;
+			$this->load->view(\''.$this->tableName.'_view\', $data);
+		}
+		else
+		{
+			$this->load->view(\'forbidden\');
+		}
 	}
 
 	public function save()

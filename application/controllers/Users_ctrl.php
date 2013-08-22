@@ -4,14 +4,19 @@ require_once('./application/libraries/base_ctrl.php');
 class Users_ctrl extends base_ctrl {
 	function __construct() {
 		parent::__construct();		
-		$this->load->database();
 	    $this->load->model('Users_model','model');
 	}
 	public function index()
 	{
-		$data['fx']='return '.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
-		$data['read']=$this->auth->IsRead;
-		$this->load->view('Users_view', $data);
+		if($this->is_authentic($this->auth->RoleId, $this->user->UserId, 'Users')){
+			$data['fx']='return '.json_encode(array("insert"=>$this->auth->IsInsert==="1","update"=>$this->auth->IsUpdate==="1","delete"=>$this->auth->IsDelete==="1"));
+			$data['read']=$this->auth->IsRead;
+			$this->load->view('Users_view', $data);
+		}
+		else
+		{
+			$this->load->view('forbidden');
+		}
 	}
 
 	public function save()

@@ -6,7 +6,9 @@ angular.module('project', ['ui.bootstrap', 'ngGrid']).
 		when('/Navigations', { templateUrl:BASE_URL+'Navigations_ctrl'}).
 		when('/NavigViewRight', { templateUrl:BASE_URL+'NavigViewRight_ctrl'}).
 		when('/Roles', { templateUrl:BASE_URL+'Roles_ctrl'}).
+		when('/Shafi', { templateUrl:BASE_URL+'Shafi_ctrl'}).
 		when('/Student', { templateUrl:BASE_URL+'Student_ctrl'}).
+		when('/Test', { templateUrl:BASE_URL+'Test_ctrl'}).
 		when('/Users', { templateUrl:BASE_URL+'Users_ctrl'}).
 
       otherwise({redirectTo:'/'});
