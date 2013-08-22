@@ -1,14 +1,17 @@
 var tools=angular.module('tools', ['ui.bootstrap']);
 tools.config(['$routeProvider', function($routeProvider) {
         $routeProvider.when('/', {templateUrl: 'partials/homeView.html', controller:'homeCtrl'});
-        $routeProvider.when('/view1', {templateUrl: 'partials/view1.html', controller:'macCtrl'});
-        $routeProvider.when('/view2', {templateUrl: 'partials/view2.html'});
+        $routeProvider.when('/model', {templateUrl: 'partials/model.php', controller:'modelCtrl'});
+        $routeProvider.when('/ctrl', {templateUrl: 'partials/controller.php', controller:'controllerCtrl'});
+		$routeProvider.when('/view', {templateUrl: 'partials/view.php', controller:'viewCtrl'});
+		$routeProvider.when('/script', {templateUrl: 'partials/script_ctrl.php', controller:'scriptCtrl'});
         $routeProvider.otherwise({redirectTo: '/'});
   }]);
 tools.factory("homeFactory", function($http){
 	var url='Oxygen.php';
 	return{
-		getOutput:function( data ){			
+		getOutput:function( data ){	
+	
 			return $http({
 			  method: 'POST',
 			  url: url,
@@ -27,7 +30,149 @@ tools.factory("homeFactory", function($http){
 			});				
 		}
 	}
-});  
+}); 
+tools.controller('modelCtrl', function($scope){
+CodeMirror.commands.autocomplete = function(cm) {
+          CodeMirror.showHint(cm, CodeMirror.hint.html);
+      }
+ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "application/x-httpd-php",
+        indentUnit: 4,
+        indentWithTabs: true, styleActiveLine: true,autoCloseTags: true,
+        enterMode: "keep",
+        tabMode: "shift", extraKeys: {"Ctrl-Space": "autocomplete"}, highlightSelectionMatches: {showToken: /\w/},
+		 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+		 foldGutter: true,
+		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+      });
+	 
+	  //,text/javascript, application/json,text/css
+	  $scope.selectModel=function(el){		
+		if(el.value){	
+			 $scope.fileName=el.value;
+			$.post('modify.php',{action:'model', name:el.value}, function(data){var data=JSON.parse(data);editor.setValue(data.content);});			
+		}		
+	  };
+	  $scope.updateFile=function(){
+		  if($scope.fileName){
+			  $.post('modify.php',{action:'model-update',name:$scope.fileName, content:editor.getValue()}, function(data){
+					toastr.success('update successfully');
+			  });
+			
+		 }
+	  };
+	  $scope.fileName='';
+}); 
+tools.controller('controllerCtrl', function($scope){
+CodeMirror.commands.autocomplete = function(cm) {
+          CodeMirror.showHint(cm, CodeMirror.hint.html);
+      }
+ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "application/x-httpd-php",
+        indentUnit: 4,
+        indentWithTabs: true, styleActiveLine: true,autoCloseTags: true,
+        enterMode: "keep",
+        tabMode: "shift", extraKeys: {"Ctrl-Space": "autocomplete"}, highlightSelectionMatches: {showToken: /\w/},
+		 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+		 foldGutter: true,
+		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+      });
+	 
+	  //,text/javascript, application/json,text/css
+	  $scope.selectModel=function(el){		
+		if(el.value){	
+			 $scope.fileName=el.value;
+			$.post('modify.php',{action:'controller', name:el.value}, function(data){var data=JSON.parse(data);editor.setValue(data.content);});			
+		}		
+	  };
+	  $scope.updateFile=function(){
+		  if($scope.fileName){
+			  $.post('modify.php',{action:'controller-update',name:$scope.fileName, content:editor.getValue()}, function(data){
+					toastr.success('update successfully');
+			  });
+			
+		 }
+	  };
+	  $scope.fileName='';
+}); 
+tools.controller('viewCtrl', function($scope){
+CodeMirror.commands.autocomplete = function(cm) {
+          CodeMirror.showHint(cm, CodeMirror.hint.html);
+      }
+ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: "application/x-httpd-php",
+        indentUnit: 4,
+        indentWithTabs: true, styleActiveLine: true,autoCloseTags: true,
+        enterMode: "keep",
+        tabMode: "shift", extraKeys: {"Ctrl-Space": "autocomplete"}, highlightSelectionMatches: {showToken: /\w/},
+		 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+		 foldGutter: true,
+		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+      });
+	 
+	  //,text/javascript, application/json,text/css
+	  $scope.selectModel=function(el){		
+		if(el.value){	
+			 $scope.fileName=el.value;
+			$.post('modify.php',{action:'view', name:el.value}, function(data){var data=JSON.parse(data);editor.setValue(data.content);});			
+		}		
+	  };
+	  $scope.updateFile=function(){
+		  if($scope.fileName){
+			  $.post('modify.php',{action:'view-update',name:$scope.fileName, content:editor.getValue()}, function(data){
+					toastr.success('update successfully');
+			  });
+			
+		 }
+	  };
+	  $scope.fileName='';
+}); 
+tools.controller('scriptCtrl', function($scope){
+CodeMirror.commands.autocomplete = function(cm) {
+          CodeMirror.showHint(cm, CodeMirror.hint.html);
+      }
+ var editor = CodeMirror.fromTextArea(document.getElementById("codex"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        //mode: "text/javascript, application/json, text/typescript, application/typescript",
+        indentUnit: 4,
+        indentWithTabs: true, styleActiveLine: true,autoCloseTags: true,
+        enterMode: "keep",
+        tabMode: "shift", extraKeys: {"Ctrl-Space": "autocomplete"}, highlightSelectionMatches: {showToken: /\w/},
+		 extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+		 foldGutter: true,
+		 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+      });
+	 /*var editor = CodeMirror.fromTextArea(document.getElementById("codex"), {
+        lineNumbers: true,
+		mode:'text/javascript, application/json, text/typescript, application/typescript',
+        matchBrackets: true,
+        continueComments: "Enter",
+        extraKeys: {"Ctrl-Q": "toggleComment"}
+      });*/
+	  //,text/javascript, application/json,text/css
+	  $scope.selectModel=function(el){		
+		if(el.value){	
+			 $scope.fileName=el.value;
+			$.post('modify.php',{action:'script', name:el.value}, function(data){var data=JSON.parse(data);editor.setValue(data.content);});			
+		}		
+	  };
+	  $scope.updateFile=function(){
+		  if($scope.fileName){
+			  $.post('modify.php',{action:'script-update',name:$scope.fileName, content:editor.getValue()}, function(data){
+					toastr.success('update successfully');
+			  });
+			
+		 }
+	  };
+	  $scope.fileName='';
+}); 
 tools.controller('homeCtrl', function($scope, homeFactory, $dialog){
 	$scope.tableList=[];
 	$scope.shouldBeOpen_refmodal=false;

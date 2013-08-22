@@ -15,7 +15,12 @@ switch($data->action){
 	case "removeColumn" : removeColumn($data); break;
 	case "drop-table" : drop_table($data); break;
 	case "save-order" : save_order($data);break;
+	case "model" : get_model_content($data);break;
 	default: echo "Unknown action $action";break;
+}
+function get_model_content($data){
+	
+	return json_encode( array('content'=>$data->name));
 }
 function save_order($data){
 	try{
