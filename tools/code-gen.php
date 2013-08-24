@@ -63,7 +63,7 @@ class CodeGen
 	foreach($data as $col){
 		$routes .=CodeGen::$tab2.'when(\'/'.$col->TableName.'\', { templateUrl:BASE_URL+\''.$col->TableName.'_ctrl\'}).'.CodeGen::$newLine;
 	}
-	$content='angular.module(\'project\', [\'ui.bootstrap\', \'ngGrid\']).
+	$content='angular.module(\'project\', [\'ui.bootstrap\', \'ngGrid\', \'jQuery-ui\']).
   config(function($routeProvider) {
     $routeProvider.
       when(\'/\', { templateUrl:BASE_URL+\'home_ctrl\'}).

@@ -47,7 +47,7 @@
     <link href="../static/css/bootstrap-responsive.css" rel="stylesheet">
 	<link href="../static/css/ng-grid.min.css" rel="stylesheet">
 	 <link href="../static/css/font-awesome.css" rel="stylesheet"/>
-	  <link href="smoothness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet"/>
+	  <link href="../static/css/smoothness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet"/>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -89,7 +89,7 @@
     <script src="../static/js/bootstrap.min.js"></script>	
 	<script src="../static/js/ng-grid.js"></script>	
 	<script src="../static/js/ui-bootstrap-tpls-0.5.0.min.js"></script>	
-	<script src="jquery-ui-1.10.2.custom.min.js"></script>
+	<script src="../static/js/jquery-ui-1.10.2.custom.min.js"></script>
 	<script src="../static/js/toastr.min.js"></script>	
     <script src="tool.js"></script>
 	<link href="../static/css/toastr.min.css" rel="stylesheet">
