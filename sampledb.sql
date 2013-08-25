@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 21, 2013 at 11:37 AM
+-- Generation Time: Aug 25, 2013 at 04:02 PM
 -- Server version: 5.5.25a
 -- PHP Version: 5.4.4
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `sampleci`
+-- Database: `sampledb`
 --
 
 -- --------------------------------------------------------
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `columns` (
   `isNull` tinyint(1) NOT NULL,
   `orderNo` int(11) NOT NULL,
   PRIMARY KEY (`colId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
 
 --
 -- Dumping data for table `columns`
@@ -75,33 +75,7 @@ INSERT INTO `columns` (`colId`, `tableId`, `isForm`, `isGrid`, `isQuickSearch`, 
 (34, 33, 0, 0, 0, '', '', '', '', 'NavgViewId', 1, 1, 'int', 0, 0, 0),
 (35, 33, 1, 1, 1, '', 'Navigations', 'NavName', 'NavigationId', 'Navigations', 0, 0, 'int', 0, 0, 0),
 (36, 33, 1, 1, 1, '', 'Roles', 'RoleName', 'RoleId', 'Roles', 0, 0, 'int', 0, 1, 0),
-(37, 33, 1, 1, 1, '', 'Users', 'UserName', 'UserId', 'Users', 0, 0, 'int', 0, 1, 0),
-(40, 35, 0, 0, 0, '', '', '', '', 'DepartmentId', 1, 1, 'int', 0, 0, 0),
-(41, 35, 1, 1, 1, '', '', '', '', 'Name', 0, 0, 'varchar', 100, 0, 0),
-(42, 36, 0, 0, 0, '', '', '', '', 'StudentId', 1, 1, 'int', 0, 0, 0),
-(43, 36, 1, 1, 1, '', '', '', '', 'Name', 0, 0, 'varchar', 100, 0, 2),
-(44, 36, 1, 1, 0, '', '', '', '', 'Address', 0, 0, 'varchar', 200, 0, 3),
-(45, 36, 1, 1, 1, '', 'Department', 'Name', 'DepartmentId', 'Department', 0, 0, 'int', 0, 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `department`
---
-
-CREATE TABLE IF NOT EXISTS `department` (
-  `DepartmentId` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(100) NOT NULL,
-  PRIMARY KEY (`DepartmentId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `department`
---
-
-INSERT INTO `department` (`DepartmentId`, `Name`) VALUES
-(1, 'BBA'),
-(2, 'CSE');
+(37, 33, 1, 1, 1, '', 'Users', 'UserName', 'UserId', 'Users', 0, 0, 'int', 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -116,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `navigations` (
   `ActionPath` varchar(100) NOT NULL,
   `ParentNavId` int(11) DEFAULT NULL,
   PRIMARY KEY (`NavigationId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `navigations`
@@ -127,9 +101,7 @@ INSERT INTO `navigations` (`NavigationId`, `NavName`, `NavOrder`, `ActionPath`, 
 (2, 'Role', 4, 'Roles', 4),
 (3, 'Navigation', 2, 'Navigations', 4),
 (4, 'Authorize', 1, 'Authorize', NULL),
-(5, 'Navigation View Right', 3, 'NavigViewRight', 4),
-(6, 'Department', 1, 'Department', NULL),
-(7, 'Student', 2, 'Student', NULL);
+(5, 'Navigation View Right', 3, 'NavigViewRight', 4);
 
 -- --------------------------------------------------------
 
@@ -143,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `navigviewright` (
   `Roles` int(11) DEFAULT NULL,
   `Users` int(11) DEFAULT NULL,
   PRIMARY KEY (`NavgViewId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `navigviewright`
@@ -154,9 +126,7 @@ INSERT INTO `navigviewright` (`NavgViewId`, `Navigations`, `Roles`, `Users`) VAL
 (2, 4, 1, NULL),
 (3, 5, 1, NULL),
 (4, 3, 1, NULL),
-(5, 2, 1, NULL),
-(6, 6, 2, NULL),
-(7, 7, 2, NULL);
+(5, 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -186,27 +156,6 @@ INSERT INTO `roles` (`RoleId`, `RoleName`, `NavigationId`, `IsRead`, `IsInsert`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student`
---
-
-CREATE TABLE IF NOT EXISTS `student` (
-  `StudentId` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(100) NOT NULL,
-  `Address` varchar(200) NOT NULL,
-  `Department` int(11) NOT NULL,
-  PRIMARY KEY (`StudentId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `student`
---
-
-INSERT INTO `student` (`StudentId`, `Name`, `Address`, `Department`) VALUES
-(1, 'jasim', 'tangail', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `synctables`
 --
 
@@ -220,11 +169,9 @@ CREATE TABLE IF NOT EXISTS `synctables` (
 --
 
 INSERT INTO `synctables` (`TableName`) VALUES
-('Department'),
 ('Navigations'),
 ('NavigViewRight'),
 ('Roles'),
-('Student'),
 ('Users');
 
 -- --------------------------------------------------------
@@ -237,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `tables` (
   `tableId` int(11) NOT NULL AUTO_INCREMENT,
   `tableName` varchar(100) NOT NULL,
   PRIMARY KEY (`tableId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Dumping data for table `tables`
@@ -247,9 +194,7 @@ INSERT INTO `tables` (`tableId`, `tableName`) VALUES
 (30, 'Navigations'),
 (31, 'Roles'),
 (32, 'Users'),
-(33, 'NavigViewRight'),
-(35, 'Department'),
-(36, 'Student');
+(33, 'NavigViewRight');
 
 -- --------------------------------------------------------
 

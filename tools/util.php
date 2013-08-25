@@ -1,7 +1,7 @@
 <?php
 
 JCrud::$HOST="127.0.0.1";
-JCrud::$DBNAME="sampleci";
+JCrud::$DBNAME="sampledb";
 JCrud::$USER="root";
 JCrud::$PASS="";
     class JsonResponse

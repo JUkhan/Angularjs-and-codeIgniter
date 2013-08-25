@@ -261,7 +261,7 @@ class CodeGen
 		
 			$this->qs .='<div class="control-group" ><label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <input class="input-xlarge" type="text" name="'.$col->colName.'" id="'.$col->colName.'" ng-model="search.'.$col->colName.'" />		  
+		  <input class="input-xlarge" type="text"  ng-model="search.'.$col->colName.'" />		  
 		</div></div>'.CodeGen::$newLine;
 		
 	}
@@ -270,7 +270,7 @@ class CodeGen
 		
 			$this->qs .='<div class="control-group" ><label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <textarea class="input-xlarge"  name="'.$col->colName.'" id="'.$col->colName.'" ng-model="search.'.$col->colName.'" ></textarea>		  
+		  <textarea class="input-xlarge"   ng-model="search.'.$col->colName.'" ></textarea>		  
 		</div></div>'.CodeGen::$newLine;
 		
 	}
@@ -279,7 +279,7 @@ class CodeGen
 		
 			$this->qs .='<div class="control-group" ><label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <select ng-options="s.'.$col->optionsValue.' as s.'.$col->optionsText.' for s in '.$col->refTableName.'List"  name="'.$col->colName.'" id="'.$col->colName.'" ng-model="search.'.$col->colName.'" ></select>		  
+		  <select ng-options="s.'.$col->optionsValue.' as s.'.$col->optionsText.' for s in '.$col->refTableName.'List"   ng-model="search.'.$col->colName.'" ></select>		  
 		</div></div>'.CodeGen::$newLine;
 		
 	}
@@ -288,21 +288,21 @@ class CodeGen
 	{	
 		$this->qs .='<div class="control-group" ><label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <input  datepicker-popup="dd/MM/yyyy" type="date" name="'.$col->colName.'" id="'.$col->colName.'" ng-model="search.'.$col->colName.'" />		  
+		  <input  datepicker-popup="dd/MM/yyyy" type="date"  ng-model="search.'.$col->colName.'" />		  
 		</div></div>'.CodeGen::$newLine;
 	}
 	//checkbox
 	else if($flag==5){
 		$this->qs .='<div class="control-group" ><label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <input  type="checkbox" ng-true-value="1" ng-false-value="0" name="'.$col->colName.'" id="'.$col->colName.'" ng-model="search.'.$col->colName.'" />		  
+		  <input  type="checkbox" ng-true-value="1" ng-false-value="0"  ng-model="search.'.$col->colName.'" />		  
 		</div></div>'.CodeGen::$newLine;
 	}
 	else if($flag==6){
 		$this->qs .='<div class="control-group" >
 			<label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <input type="email" name="'.$col->colName.'" id="'.$col->colName.'" ng-model="item.'.$col->colName.'" />
+		  <input type="email" ng-model="item.'.$col->colName.'" />
 			
 		</div></div>'.CodeGen::$newLine;
 	}
@@ -310,13 +310,13 @@ class CodeGen
 		$this->qs .='<div class="control-group" >
 			<label class="control-label" for="'.$col->colName.'">'.$col->colName.'</label>
 		<div class="controls">
-		  <input type="number" name="'.$col->colName.'" id="'.$col->colName.'" ng-model="item.'.$col->colName.'" />
+		  <input type="number" ng-model="item.'.$col->colName.'" />
 			
 		</div></div>'.CodeGen::$newLine;
 	}
 	
  }
- private $dropdownDalaLoad, $undefined_field, $grid, $typeCast;
+ private $dropdownDalaLoad, $undefined_field, $grid, $typeCast, $date_time;
  private function helper(){
 	//CodeGen::$newLine CodeGen::$tab1
 	$this->typeCast="";
@@ -330,6 +330,7 @@ class CodeGen
 	$this->select ="";
 	$this->where ="";
 	$this->model_for_dropdown ="";
+	$this->date_time="";
 	$this->select .=strval($this->tableName).'.'.$this->pkColName;	
 	foreach($this->allColumns as $col){
 		
@@ -372,10 +373,13 @@ class CodeGen
 			if($col->isQuickSearch==1)
 			$this->qs_helper($col, $this->getFormType($col));
 			if($col->isGrid==1){
-				if($this->getFormType($col)==4)
+				if($this->getFormType($col)==4){				
 					$this->grid .=CodeGen::$tab4.',{field: \''.$col->colName.'\', displayName: \''.$col->colName.'\', cellFilter: "date:\'dd/MM/yyyy\'"}'.CodeGen::$newLine;
-				else
+					$this->date_time .='$scope.item.'.$col->colName.'=null; ';
+				}
+				else{
 					$this->grid .=CodeGen::$tab4.',{field: \''.$col->colName.'\', displayName: \''.$col->colName.'\'}'.CodeGen::$newLine;
+					}
 			}
 		}
 		
@@ -390,7 +394,7 @@ class CodeGen
 	else if( stristr($col->colName, "address")) return 2;
 	else if( stristr($col->colName, "note")) return 2;
 	else if( stristr($col->colName, "email")) return 6;
-	else if( $col->dataType==="int" || $col->dataType==="bigint") return 7;	
+	else if( $col->dataType==="int" || $col->dataType==="bigint" || $col->dataType==="double") return 7;	
 	return 1;
 	
  }
@@ -627,7 +631,7 @@ function '.$this->tableName.'Ctrl($scope, $http){
 	};
 };
 '.$this->tableName.'Ctrl.prototype.searchPopup=function($scope){
-	$scope.showForm=function(){$scope.fgShowHide=false; $scope.item=null;};
+	$scope.showForm=function(){$scope.fgShowHide=false; $scope.item={}; '.$this->date_time.'};
 	$scope.hideForm=function(){$scope.fgShowHide=true;};
 	$scope.openSearchDialog=function(){		
 		$scope.searchDialog=true;
