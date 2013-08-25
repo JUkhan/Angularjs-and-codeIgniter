@@ -178,7 +178,7 @@ class CodeGen
 	//date picker
 	else if($flag==4)
 	{
-		$this->typeCast .='$scope.item.'.$col->colName.'=new Date($scope.item.'.$col->colName.');'.CodeGen::$newLine.CodeGen::$tab2;
+		$this->typeCast .='$scope.item.'.$col->colName.'=getDate($scope.item.'.$col->colName.');'.CodeGen::$newLine.CodeGen::$tab2;
 		if($col->isNull==1)
 		{
 			$this->form .='<div class="control-group" ng-class="{error: myForm.'.$col->colName.'.$invalid}">
