@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once('./application/libraries/base_ctrl.php');
 class Navigations_ctrl extends base_ctrl {
+	private static $tab2="\t\t";
+	 private static $newLine="\r\n";
 	function __construct() {
 		parent::__construct();		
 	    $this->load->model('Navigations_model','model');
@@ -17,8 +19,35 @@ class Navigations_ctrl extends base_ctrl {
 		{
 			$this->load->view('forbidden');
 		}
+		
 	}
-
+	private function generate_routes(){
+	
+	$data=$this->model->get_all();
+	$routes="";
+	foreach($data as $col){
+		$routes .=Navigations_ctrl::$tab2.'when(\'/'.$col->ActionPath.'\', { templateUrl:BASE_URL+\''.$col->ActionPath.'_ctrl\'}).'.Navigations_ctrl::$newLine;
+		
+	}
+	$content='angular.module(\'project\', [\'ui.bootstrap\', \'ngGrid\', \'jQuery-ui\']).
+  config(function($routeProvider) {
+    $routeProvider.
+      when(\'/\', { templateUrl:BASE_URL+\'home_ctrl\'}).
+      '.$routes.'
+      otherwise({redirectTo:\'/\'});
+  });';
+  $this->putContent('static/appScript/app.js', $content);
+ }
+  private function putContent($path, $content){
+	//file_put_contents($path, $content, FILE_APPEND | LOCK_EX);
+	$file=fopen($path, "w+");
+	if($file==false){
+		echo "Error in opening $file ";
+		exit();
+	}
+	fwrite($file, $content);
+	fclose($file);
+ }
 	public function save()
 	{
 		$data=$this->post();
@@ -41,6 +70,7 @@ class Navigations_ctrl extends base_ctrl {
 				$msg='Data updated successfully';				
 			}		
 		}
+		$this->generate_routes();
 		print json_encode(array('success'=>$success, 'msg'=>$msg, 'id'=>$id));
 	}
 
@@ -53,6 +83,7 @@ class Navigations_ctrl extends base_ctrl {
 		else{
 			print json_encode( array("success"=>FALSE,"msg"=>"You are not permitted"));
 		}
+		$this->generate_routes();
 	}
 	public function get_Navigations_list(){
 		print  json_encode($this->model->get_Navigations_list());

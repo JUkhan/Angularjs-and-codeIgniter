@@ -53,8 +53,8 @@ class CodeGen
 	$params[]=$this->tableName;
 	$db->insert('insert into SyncTables(TableName) values(?)', $params);
 	$db->query1($this->mysql);
-	$routes=$this->generate_routes();
-	$this->putContent('../static/appScript/app.js', $routes);
+	//$routes=$this->generate_routes();
+	//$this->putContent('../static/appScript/app.js', $routes);
  }
  private function generate_routes(){
 	$db=new JCrud();
